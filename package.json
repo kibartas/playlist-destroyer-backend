@@ -1,0 +1,13 @@
+{
+  "name": "playlist-destroyer-server",
+  "version": "1.0.0",
+  "description": "server side for playlist-destroyer",
+  "main": "index.js",
+  "repository": "https://github.com/kibartas/playlist-destroyer-backend",
+  "author": "kibartas <juodasis.perlas@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "monk": "^7.3.0"
+  }
+}
