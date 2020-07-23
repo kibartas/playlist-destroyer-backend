@@ -6,6 +6,9 @@
   "repository": "https://github.com/kibartas/playlist-destroyer-backend",
   "author": "kibartas <juodasis.perlas@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
   "dependencies": {
     "express": "^4.17.1",
     "monk": "^7.3.0"
@@ -34,6 +37,12 @@
     "./**/*.{ts}": [
       "prettier --write",
       "eslint --fix --ext .ts ."
+    ]
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
     ]
   }
 }
