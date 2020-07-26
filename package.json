@@ -41,7 +41,7 @@
     }
   },
   "lint-staged": {
-    "./**/*.{ts}": [
+    "src/**/*.ts": [
       "prettier --write",
       "eslint --fix --ext .ts ."
     ]
