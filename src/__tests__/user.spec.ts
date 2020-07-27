@@ -33,13 +33,11 @@ describe("User model", () => {
     expect(await UserModel.estimatedDocumentCount()).toEqual(0);
     await UserModel.create(userData);
     expect(await UserModel.estimatedDocumentCount()).toEqual(1);
-    const result: IUser = <IUser>(
-      await UserModel.findOneAndUpdate(
-        { username: userData.username },
-        { username: "Kirminas" },
-        { new: true }
-      )
-    );
+    const result: IUser = (await UserModel.findOneAndUpdate(
+      { username: userData.username },
+      { username: "Kirminas" },
+      { new: true }
+    )) as IUser;
     const { username, password }: IUser = result;
     expect({ username, password }).toEqual({
       username: "Kirminas",

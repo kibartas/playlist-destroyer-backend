@@ -21,9 +21,10 @@ describe("POST /auth", () => {
       .send({ username: "JohnLukeThe3rd", password: "abc" })
       .set("Accept", "application/json")
       .expect(200);
-    const decoded: jwtStruct = <jwtStruct>(
-      jwt.verify(response.body.jwt, <string>process.env.TOKEN_SECRET)
-    );
+    const decoded: jwtStruct = jwt.verify(
+      response.body.jwt,
+      process.env.TOKEN_SECRET as string
+    ) as jwtStruct;
     expect(decoded.username).toEqual(username);
   });
   it("should respond with a 404 Bad Request", (done) => {
