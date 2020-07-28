@@ -22,8 +22,7 @@ export const auth = (req: Request, res: Response, next: NextFunction): void => {
       ) as jwtStruct;
       req.username = payload.username;
       next();
-    } catch (e) {
-      console.log(e);
+    } catch {
       res.sendStatus(401);
     }
   }

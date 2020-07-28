@@ -34,7 +34,7 @@ describe("authentication middleware function", () => {
   it('should return 401 if there\'s no "Bearer " in front of token', (done) => {
     mockedFunction = jest.fn(
       (req: Request, res: Response, next: NextFunction): void => {
-        req.headers["Authorization"] = jwt.sign(
+        req.headers["authorization"] = jwt.sign(
           { username: "JohnLukeThe3rd" },
           process.env.TOKEN_SECRET as string
         );
@@ -48,12 +48,14 @@ describe("authentication middleware function", () => {
   it("should return 401 if token is malformed", (done) => {
     mockedFunction = jest.fn(
       (req: Request, res: Response, next: NextFunction): void => {
-        req.headers["Authorization"] = jwt
-          .sign(
-            { username: "JohnLukeThe3rd" },
-            process.env.TOKEN_SECRET as string
-          )
-          .slice(0, -2);
+        req.headers["authorization"] =
+          "Bearer " +
+          jwt
+            .sign(
+              { username: "JohnLukeThe3rd" },
+              process.env.TOKEN_SECRET as string
+            )
+            .slice(0, -2);
         next();
       }
     );
