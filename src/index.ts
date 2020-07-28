@@ -1,7 +1,7 @@
-import express from 'express';
+import express, { Application } from 'express';
 import initialization from './initialization';
 
-const app = express();
+const app: Application = express();
 
 initialization(app);
 
