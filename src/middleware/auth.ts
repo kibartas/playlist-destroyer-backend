@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { jwtStruct } from "../types/jwt";
 
 export const auth = (req: Request, res: Response, next: NextFunction): void => {
   const bearerToken = req.header("Authorization");
@@ -15,7 +16,11 @@ export const auth = (req: Request, res: Response, next: NextFunction): void => {
       token = bearerToken.replace("Bearer ", "");
     }
     try {
-      jwt.verify(token, process.env.TOKEN_SECRET as string);
+      const payload: jwtStruct = jwt.verify(
+        token,
+        process.env.TOKEN_SECRET as string
+      ) as jwtStruct;
+      req.username = payload.username;
       next();
     } catch (e) {
       console.log(e);
