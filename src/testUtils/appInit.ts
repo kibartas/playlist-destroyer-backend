@@ -1,6 +1,6 @@
-import { Application } from "express";
-import * as dotenv from "dotenv";
-import * as bodyParser from "body-parser";
+import { Application } from 'express';
+import * as dotenv from 'dotenv';
+import * as bodyParser from 'body-parser';
 
 export const appInit = (app: Application): void => {
   dotenv.config();
@@ -8,3 +8,5 @@ export const appInit = (app: Application): void => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 };
+
+export default appInit;

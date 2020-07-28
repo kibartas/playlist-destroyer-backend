@@ -9,7 +9,8 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
-    "typeRoots": ["./src/types", "./node_modules/@types"],
+    "typeRoots": [
+      "./types", "./node_modules/@types"],
     "baseUrl": ".",
     "paths": {
       "*": [

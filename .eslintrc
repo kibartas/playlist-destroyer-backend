@@ -1,8 +1,19 @@
 {
-  "plugins": [
-    "@typescript-eslint",
-    "airbnb"
-  ],
+  "plugins": [ "@typescript-eslint" ],
   "parser": "@typescript-eslint/parser",
-  "extends": ["plugin:@typescript-eslint/recommended"]
+  "extends": ["plugin:@typescript-eslint/recommended", "airbnb-base"],
+  "rules": {
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
+    "max-len": "off"
+  },
+  "overrides": [
+    {
+      "files": [ "*.spec.*", "./src/testUtils/*" ],
+      "rules": {
+        "no-undef": "off",
+        "import/no-extraneous-dependencies": "off"
+      }
+    }
+  ]
 }
