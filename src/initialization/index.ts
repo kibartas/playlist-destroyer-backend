@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 import * as bodyParser from 'body-parser';
 import { auth } from '../middleware/auth';
 import { unless } from '../middleware/utils/unless';
-import requests from '../requests';
+import requests from '../routes';
 
 export default (app: Application): void => {
   dotenv.config();

@@ -3,7 +3,7 @@ import express, { Application } from 'express';
 
 import jwt from 'jsonwebtoken';
 import initialization from '../initialization';
-import requests from '../requests';
+import requests from '../routes';
 import { jwtStruct } from '../../types/jwt';
 import generateToken from '../authentication/generateToken';
 
