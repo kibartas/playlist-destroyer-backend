@@ -1,7 +1,7 @@
 import { Application, Request, Response } from "express";
 import generateToken from "../authentication/generateToken";
 import jwt from "jsonwebtoken";
-import { jwtStruct } from "../@types";
+import { jwtStruct } from "../types/jwt";
 
 type AuthRequestBody = {
   username: string;

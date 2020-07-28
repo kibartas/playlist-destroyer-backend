@@ -17,7 +17,6 @@ describe("User model", () => {
   it("can be created correctly", async () => {
     expect(await UserModel.estimatedDocumentCount()).toEqual(0);
     await UserModel.create(userData);
-    console.log(await UserModel.findOne(userData));
     expect(await UserModel.estimatedDocumentCount()).toEqual(1);
   });
 
@@ -25,7 +24,7 @@ describe("User model", () => {
     expect(await UserModel.estimatedDocumentCount()).toEqual(0);
     await UserModel.create(userData);
     expect(await UserModel.estimatedDocumentCount()).toEqual(1);
-    await UserModel.remove(userData);
+    await UserModel.deleteOne(userData);
     expect(await UserModel.estimatedDocumentCount()).toEqual(0);
   });
 
@@ -36,7 +35,7 @@ describe("User model", () => {
     const result: IUser = (await UserModel.findOneAndUpdate(
       { username: userData.username },
       { username: "Kirminas" },
-      { new: true }
+      { new: true, useFindAndModify: false }
     )) as IUser;
     const { username, password }: IUser = result;
     expect({ username, password }).toEqual({

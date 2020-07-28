@@ -4,7 +4,7 @@ import express from "express";
 import { Application } from "express";
 import initialization from "../initialization";
 import jwt from "jsonwebtoken";
-import { jwtStruct } from "../@types";
+import { jwtStruct } from "../types/jwt";
 import generateToken from "../authentication/generateToken";
 
 const app: Application = express();
@@ -30,6 +30,7 @@ describe("routing", () => {
       ) as jwtStruct;
       expect(decoded.username).toEqual(username);
     });
+
     it("should respond with a 404 Bad Request", (done) => {
       request(app)
         .post("/auth")
