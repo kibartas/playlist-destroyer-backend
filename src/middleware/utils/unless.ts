@@ -4,7 +4,11 @@ export const unless = (
   path: string,
   middleware: (req: Request, res: Response, next: NextFunction) => void,
 ): ((req: Request, res: Response, next: NextFunction) => void
-) => (req: Request, res: Response, next: NextFunction) => {
+) => (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   if (path === req.path) {
     return next();
   }

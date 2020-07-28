@@ -1,5 +1,3 @@
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 
-export default (username: { username: string }): string => {
-  return jwt.sign(username, process.env.TOKEN_SECRET as string);
-};
+export default (username: { username: string }): string => jwt.sign(username, process.env.TOKEN_SECRET as string);

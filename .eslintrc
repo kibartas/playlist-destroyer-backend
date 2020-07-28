@@ -1,5 +1,5 @@
 {
-  "plugins": [ "@typescript-eslint" ],
+  "plugins": ["@typescript-eslint"],
   "parser": "@typescript-eslint/parser",
   "extends": ["plugin:@typescript-eslint/recommended", "airbnb-base"],
   "rules": {
@@ -9,7 +9,7 @@
   },
   "overrides": [
     {
-      "files": [ "*.spec.*", "./src/testUtils/*" ],
+      "files": ["*.spec.*", "./src/testUtils/*"],
       "rules": {
         "no-undef": "off",
         "import/no-extraneous-dependencies": "off"

@@ -1,5 +1,5 @@
 declare namespace Express {
-    interface Request {
-        username?: string;
-    }
+  interface Request {
+    username?: string;
+  }
 }
