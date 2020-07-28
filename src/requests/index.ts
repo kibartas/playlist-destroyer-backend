@@ -21,18 +21,6 @@ export default (app: Application): void => {
   });
 
   app.get("/user", (req: Request, res: Response): void => {
-    let token = req.header("Authorization");
-    if (token === undefined) {
-      res.sendStatus(400);
-    } else {
-      token = token.replace("Bearer ", "");
-      const payload: jwtStruct = jwt.decode(token as string) as jwtStruct;
-      if (!payload?.username) {
-        res.sendStatus(400);
-        return;
-      } else {
-        res.json({ username: payload.username });
-      }
-    }
+    res.json({ username: req.username });
   });
 };
