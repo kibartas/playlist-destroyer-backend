@@ -1,5 +1,5 @@
 export interface jwtStruct {
-  iat: number;
-  username: string;
-  role: string;
+  readonly iat: number;
+  readonly username: string;
+  readonly role: string;
 }

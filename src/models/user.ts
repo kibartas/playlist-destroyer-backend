@@ -1,11 +1,13 @@
 import mongoose, { Document } from 'mongoose';
 
-export interface IUser extends Document {
-  username: string;
-  password: string;
-  creationDate: Date;
-  lastLogin?: Date;
-  role?: 'admin' | 'user';
+export type UserRoles = 'admin' | 'user' | undefined;
+
+export interface IUser {
+  readonly username: string;
+  readonly password: string;
+  readonly creationDate?: Date;
+  readonly lastLogin?: Date;
+  role?: UserRoles;
 }
 
 const userSchema = new mongoose.Schema({
@@ -16,4 +18,6 @@ const userSchema = new mongoose.Schema({
   role: { type: String, enum: ['user', 'admin'], default: 'user' },
 });
 
-export default mongoose.model<IUser>('User', userSchema);
+export type UserType = IUser & Document;
+
+export default mongoose.model<UserType>('User', userSchema);
