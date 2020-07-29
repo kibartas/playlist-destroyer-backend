@@ -19,7 +19,12 @@ export const auth = (req: Request, res: Response, next: NextFunction): void => {
         token,
         process.env.TOKEN_SECRET as string,
       ) as jwtStruct;
+      if (!payload.username || !payload.role) {
+        res.send(401);
+        return;
+      }
       req.username = payload.username;
+      req.role = payload.role;
       next();
     } catch {
       res.sendStatus(401);
