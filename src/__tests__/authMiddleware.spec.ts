@@ -7,10 +7,11 @@ import request from 'supertest';
 import { auth } from '../middleware/auth';
 import { appInit } from '../testUtils/appInit';
 import generateToken from '../authentication/generateToken';
+import { UserRoles } from '../../types/user';
 
 const userData = {
   username: 'JohnLukeThe3rd',
-  role: 'admin',
+  role: 'admin' as UserRoles,
 };
 
 const prep = (app: Application, mockedFunction: jest.Mock) => {
@@ -41,7 +42,10 @@ describe('authentication middleware function', () => {
   it('should return 401 if there\'s no "Bearer " in front of token', (done) => {
     mockedFunction = jest.fn(
       (req: Request, res: Response, next: NextFunction): void => {
-        req.headers.authorization = generateToken(userData);
+        req.headers.authorization = generateToken({
+          username: userData.username,
+          role: userData.role,
+        });
         next();
       },
     );
@@ -52,10 +56,10 @@ describe('authentication middleware function', () => {
   it('should return 401 if token is malformed', (done) => {
     mockedFunction = jest.fn(
       (req: Request, res: Response, next: NextFunction): void => {
-        req.headers.authorization = `Bearer ${generateToken(userData)}`.slice(
-          0,
-          -2,
-        );
+        req.headers.authorization = `Bearer ${generateToken({
+          username: userData.username,
+          role: userData.role,
+        })}`.slice(0, -2);
         next();
       },
     );
@@ -66,7 +70,10 @@ describe('authentication middleware function', () => {
   it("should return 200, username and role if everything's okay", (done) => {
     mockedFunction = jest.fn(
       (req: Request, res: Response, next: NextFunction): void => {
-        req.headers.authorization = `Bearer ${generateToken(userData)}`;
+        req.headers.authorization = `Bearer ${generateToken({
+          username: userData.username,
+          role: userData.role,
+        })}`;
         next();
       },
     );
