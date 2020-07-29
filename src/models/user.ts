@@ -11,8 +11,14 @@ export interface IUser {
 }
 
 const userSchema = new mongoose.Schema({
-  username: { type: String, required: true },
-  password: { type: String, required: true },
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    maxlength: 50,
+  },
+  password: { type: String, required: true, maxlength: 60 },
   creationDate: { type: Date, default: new Date(), required: true },
   lastLogin: Date,
   role: { type: String, enum: ['user', 'admin'], default: 'user' },
