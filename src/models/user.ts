@@ -1,14 +1,5 @@
-import mongoose, { Document } from 'mongoose';
-
-export type UserRoles = 'admin' | 'user' | undefined;
-
-export interface IUser {
-  readonly username: string;
-  readonly password: string;
-  readonly creationDate?: Date;
-  readonly lastLogin?: Date;
-  role?: UserRoles;
-}
+import mongoose from 'mongoose';
+import { UserType } from '../../types/user';
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -23,7 +14,5 @@ const userSchema = new mongoose.Schema({
   lastLogin: Date,
   role: { type: String, enum: ['user', 'admin'], default: 'user' },
 });
-
-export type UserType = IUser & Document;
 
 export default mongoose.model<UserType>('User', userSchema);
