@@ -9,9 +9,10 @@ const mongod = new MongoMemoryServer();
 export const connect = async (): Promise<void> => {
   const uri = await mongod.getUri();
 
-  const mongooseOpts = {
+  const mongooseOpts: mongoose.ConnectionOptions = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
   };
 
   await mongoose.connect(uri, mongooseOpts);
