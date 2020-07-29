@@ -1,6 +1,7 @@
 <component name="ProjectDictionaryState">
   <dictionary name="kibartas">
     <words>
+      <w>bcrypt</w>
       <w>dotenv</w>
     </words>
   </dictionary>
