@@ -1,14 +1,8 @@
-import UserModel, { IUser } from '../models/user';
+import UserModel from '../models/user';
 import * as dbHandler from '../testUtils/db-handler';
+import { IUser, UserType } from '../../types/user';
 
-type UserData = {
-  username: string;
-  password: string;
-  creationDate: Date;
-  role?: 'admin' | 'user';
-};
-
-const userData: UserData = {
+const userData: IUser = {
   username: 'JohnLukeThe3rd',
   password: 'Rabarbaras123',
   creationDate: new Date(),
@@ -24,28 +18,29 @@ afterAll(async () => dbHandler.closeDatabase());
 describe('User model', () => {
   it('can be created correctly', async () => {
     expect(await UserModel.estimatedDocumentCount()).toEqual(0);
-    await UserModel.create(userData as IUser);
+    await UserModel.create(userData);
     expect(await UserModel.estimatedDocumentCount()).toEqual(1);
   });
 
   it('can be removed correctly', async () => {
     expect(await UserModel.estimatedDocumentCount()).toEqual(0);
-    await UserModel.create(userData as IUser);
+    await UserModel.create(userData);
     expect(await UserModel.estimatedDocumentCount()).toEqual(1);
-    await UserModel.deleteOne(userData as IUser);
+    await UserModel.deleteOne(userData);
     expect(await UserModel.estimatedDocumentCount()).toEqual(0);
   });
 
   it('can be updated correctly', async () => {
     expect(await UserModel.estimatedDocumentCount()).toEqual(0);
-    await UserModel.create(userData as IUser);
+    await UserModel.create(userData);
     expect(await UserModel.estimatedDocumentCount()).toEqual(1);
-    const result: IUser = (await UserModel.findOneAndUpdate(
+    const result: UserType | null = await UserModel.findOneAndUpdate(
       { username: userData.username },
       { username: 'Kirminas' },
       { new: true, useFindAndModify: false },
-    )) as IUser;
-    const { username, password }: IUser = result;
+    );
+    if (result === null) fail();
+    const { username, password }: UserType = result;
     expect({ username, password }).toEqual({
       username: 'Kirminas',
       password: userData.password,
@@ -55,13 +50,16 @@ describe('User model', () => {
   it('gets proper defaults', async () => {
     const dateNow = Date.now();
     expect(await UserModel.estimatedDocumentCount()).toEqual(0);
-    const userDataChanged: UserData = { ...userData };
+    const userDataChanged: IUser = { ...userData };
     userDataChanged.role = undefined;
-    await UserModel.create(userDataChanged as IUser);
+    await UserModel.create(userDataChanged);
     const result: IUser | null = await UserModel.findOne({
       username: userData.username,
     });
     if (result === null) {
+      fail();
+    }
+    if (result.creationDate === undefined) {
       fail();
     }
     expect(result.username).toEqual(userData.username);
@@ -74,7 +72,7 @@ describe('User model', () => {
 
   it('gets created with admin role', async () => {
     expect(await UserModel.estimatedDocumentCount()).toEqual(0);
-    const user: IUser | null = await UserModel.create(userData as IUser);
+    const user: IUser | null = await UserModel.create(userData);
     if (user === null) {
       fail();
     }
