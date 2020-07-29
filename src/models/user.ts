@@ -4,8 +4,8 @@ export interface IUser extends Document {
   username: string;
   password: string;
   creationDate: Date;
-  lastLogin: Date;
-  role: 'admin' | 'user';
+  lastLogin?: Date;
+  role?: 'admin' | 'user';
 }
 
 const userSchema = new mongoose.Schema({
