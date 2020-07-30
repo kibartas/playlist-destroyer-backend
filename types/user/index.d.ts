@@ -11,3 +11,11 @@ export interface IUser {
 }
 
 export type UserType = IUser & Document;
+
+export interface UserDto {
+  readonly username: string;
+  readonly password?: string;
+  readonly creationDate?: Date;
+  readonly lastLogin?: Date;
+  role?: UserRoles;
+}
