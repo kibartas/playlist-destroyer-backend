@@ -10,7 +10,7 @@ export const unless = (
   next: NextFunction,
 ) => {
   if (path === req.path) {
-    return next();
+    next();
   }
   return middleware(req, res, next);
 };
