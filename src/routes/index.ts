@@ -23,6 +23,10 @@ export default (app: Application): void => {
           res.sendStatus(422);
           return;
         }
+        if (user.password === undefined) {
+          res.sendStatus(500);
+          return;
+        }
         if (!(await bcrypt.compare(body.password, user.password))) {
           res.sendStatus(422);
           return;
