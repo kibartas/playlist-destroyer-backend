@@ -7,7 +7,7 @@ import insertUser from '../database/insertUser';
 
 export const routes = {
   users: '/users',
-  authentication: '/tokenValidation',
+  authentication: '/auth',
   // gets current user information
   me: '/users/me',
 };
@@ -73,6 +73,7 @@ export default (app: Application): void => {
       const user: UserDto | undefined = await insertUser({
         username: req.body.username,
         password: req.body.password,
+        role: req.body?.role,
       });
       if (user === undefined) {
         res.sendStatus(500);
