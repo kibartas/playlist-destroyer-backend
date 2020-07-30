@@ -9,15 +9,9 @@ import { jwtStruct } from '../../types/jwt';
 import generateToken from '../authentication/generateToken';
 import * as db from '../testUtils/db-handler';
 import insertUser from '../database/insertUser';
-import { IUser } from '../../types/user';
+import { IUser, UserRoles } from '../../types/user';
 import auth from '../middleware/auth';
 import appInit from '../testUtils/appInit';
-
-const userData: IUser = {
-  username: 'JohnLukeThe3rd',
-  password: 'Password123',
-  role: 'admin',
-};
 
 describe('routing', () => {
   beforeAll(async () => db.connect());
@@ -25,6 +19,12 @@ describe('routing', () => {
   afterAll(async () => db.closeDatabase());
 
   describe('POST /auth', () => {
+    const userData: IUser = {
+      username: 'JohnLukeThe3rd',
+      password: 'Password123',
+      role: 'admin',
+    };
+
     let app: Application;
     beforeAll(() => {
       app = express();
@@ -88,6 +88,12 @@ describe('routing', () => {
   };
 
   describe('GET /user', () => {
+    const userData: IUser = {
+      username: 'JohnLukeThe3rd',
+      password: 'Password123',
+      role: 'admin',
+    };
+
     let app: Application;
     beforeEach(() => {
       app = express();
@@ -148,6 +154,33 @@ describe('routing', () => {
         )
         .set('Accept', 'application/json')
         .expect(500, done);
+    });
+  });
+
+  describe('POST /users', () => {
+    const adminData = {
+      username: 'JohnLukeThe3rd',
+      role: 'admin' as UserRoles,
+    };
+    const userData = {
+      username: 'regularUsername',
+      password: 'Password123',
+    };
+    let app: Application;
+    beforeEach(() => {
+      app = express();
+      prep(app);
+    });
+
+    it('should return registered user', (done) => {
+      const adminToken = generateToken(adminData);
+      request(app)
+        .post('/users')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .set('Accept', 'application/json')
+        .send({ username: userData.username, password: userData.password })
+        .expect({ username: 'regularUser', role: '' })
+        .expect(201, done);
     });
   });
 });
