@@ -10,7 +10,7 @@ import generateToken from '../authentication/generateToken';
 import * as db from '../testUtils/db-handler';
 import insertUser from '../database/insertUser';
 import { IUser, UserRoles } from '../../types/user';
-import auth from '../middleware/auth';
+import tokenValidation from '../middleware/tokenValidation';
 import appInit from '../testUtils/appInit';
 
 describe('routing', () => {
@@ -82,7 +82,7 @@ describe('routing', () => {
     ),
   ) => {
     appInit(app);
-    app.use(auth);
+    app.use(tokenValidation);
     app.use(mockedFunction);
     requests(app);
   };

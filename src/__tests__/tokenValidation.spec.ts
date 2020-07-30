@@ -4,7 +4,7 @@ import express, {
 
 import request from 'supertest';
 
-import { auth } from '../middleware/auth';
+import tokenValidation from '../middleware/tokenValidation';
 import { appInit } from '../testUtils/appInit';
 import generateToken from '../authentication/generateToken';
 import { UserRoles } from '../../types/user';
@@ -16,7 +16,7 @@ const userData = {
 
 const prep = (app: Application, mockedFunction: jest.Mock) => {
   app.use(mockedFunction);
-  app.use(auth);
+  app.use(tokenValidation);
   app.get('/test', (req: Request, res: Response, next: NextFunction): void => {
     res.json({ username: req.username, role: req.role });
     next();

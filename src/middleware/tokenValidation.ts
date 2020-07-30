@@ -2,7 +2,11 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { jwtStruct } from '../../types/jwt';
 
-export const auth = (req: Request, res: Response, next: NextFunction): void => {
+export const tokenValidation = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): void => {
   const bearerToken = req.header('Authorization');
   let token;
   if (!bearerToken) {
@@ -28,4 +32,4 @@ export const auth = (req: Request, res: Response, next: NextFunction): void => {
   }
 };
 
-export default auth;
+export default tokenValidation;
