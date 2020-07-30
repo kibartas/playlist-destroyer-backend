@@ -58,5 +58,5 @@ export default async (
       return;
     }
   }
-  next();
+  return next();
 };

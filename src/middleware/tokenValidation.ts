@@ -25,7 +25,7 @@ export const tokenValidation = (
       ) as jwtStruct;
       req.username = payload.username;
       req.role = payload.role;
-      next();
+      return next();
     } catch {
       res.sendStatus(401);
     }

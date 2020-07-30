@@ -14,6 +14,12 @@
         "no-undef": "off",
         "import/no-extraneous-dependencies": "off"
       }
+    },
+    {
+      "files": ["./src/middleware/**"],
+      "rules": {
+        "consistent-return": "off"
+      }
     }
   ]
 }
