@@ -5,6 +5,7 @@ import express, {
 import request from 'supertest';
 import { appInit } from '../testUtils/appInit';
 import { unless } from '../middleware/utils/unless';
+import { routes } from '../routes';
 
 describe('unless util function', () => {
   let mockMiddleware: jest.Mock<void>;
@@ -16,8 +17,8 @@ describe('unless util function', () => {
       },
     );
     app = express();
-    app.use(unless('/auth', mockMiddleware));
-    app.post('/auth', (req: Request, res: Response) => {
+    app.use(unless(routes.authentication, mockMiddleware));
+    app.post(routes.authentication, (req: Request, res: Response) => {
       res.sendStatus(200);
     });
     app.get('/me', (req: Request, res: Response) => {
@@ -29,7 +30,7 @@ describe('unless util function', () => {
 
   it('should not call middleware function', async () => {
     await request(app)
-      .post('/auth')
+      .post(routes.authentication)
       .send({ username: 'Luke', password: 'Edwards' })
       .set('Accept', 'application/json')
       .expect(200);

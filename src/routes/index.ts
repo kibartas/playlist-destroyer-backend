@@ -2,11 +2,19 @@ import { Application, Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import generateToken from '../authentication/generateToken';
 import getUser from '../database/getUser';
-import { IUser } from '../../types/user';
+import { UserDto } from '../../types/user';
+import insertUser from '../database/insertUser';
+
+export const routes = {
+  users: '/users',
+  authentication: '/tokenValidation',
+  // gets current user information
+  me: '/users/me',
+};
 
 export default (app: Application): void => {
   app.post(
-    '/auth',
+    routes.authentication,
     async (req: Request, res: Response): Promise<void> => {
       const { body } = req;
       if (body?.username && body?.password) {
@@ -32,19 +40,42 @@ export default (app: Application): void => {
   );
 
   app.get(
-    '/user',
+    routes.me,
     async (req: Request, res: Response): Promise<void> => {
       if (req.username === undefined) {
         res.sendStatus(500);
         return;
       }
-      const user: IUser | null = await getUser(req.username);
+      const user: UserDto | null = await getUser(req.username);
       if (user === null) {
         res.sendStatus(500);
         return;
       }
       res.status(200);
       res.json({ username: user.username, role: user.role });
+    },
+  );
+
+  app.post(
+    routes.users,
+    async (req: Request, res: Response): Promise<void> => {
+      if (
+        req.body?.username === undefined
+        || req.body?.password === undefined
+      ) {
+        res.sendStatus(500);
+        return;
+      }
+      const user: UserDto | undefined = await insertUser({
+        username: req.body.username,
+        password: req.body.password,
+      });
+      if (user === undefined) {
+        res.sendStatus(500);
+        return;
+      }
+      res.status(201);
+      res.json(user);
     },
   );
 };

@@ -1,18 +1,18 @@
 import hashPassword from './utils/hashPassword';
 import UserModel from '../models/user';
-import { IUser } from '../../types/user';
+import { IUser, UserDto } from '../../types/user';
 
 const insertUser = async (
   user: IUser,
   returnPassword = false,
-): Promise<undefined | IUser> => {
+): Promise<undefined | UserDto> => {
   const userHashed: IUser = {
     ...user,
     password: await hashPassword(user.password),
   };
   try {
     await UserModel.create(userHashed);
-    let result: IUser | null;
+    let result: UserDto | null;
     if (returnPassword) {
       result = await UserModel.findOne({ username: user.username }).select(
         '-_id -__v',

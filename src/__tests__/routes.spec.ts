@@ -4,7 +4,7 @@ import express, {
 } from 'express';
 
 import jwt from 'jsonwebtoken';
-import requests from '../routes';
+import requests, { routes } from '../routes';
 import { jwtStruct } from '../../types/jwt';
 import generateToken from '../authentication/generateToken';
 import * as db from '../testUtils/db-handler';
@@ -35,7 +35,7 @@ describe('routing', () => {
     it('should respond with a jwt token and username', async () => {
       await insertUser(userData);
       const response = await request(app)
-        .post('/auth')
+        .post(routes.authentication)
         .send({ username: userData.username, password: userData.password })
         .set('Accept', 'application/json')
         .expect(200);
@@ -48,7 +48,7 @@ describe('routing', () => {
 
     it('should respond with a 400 Bad Request', (done) => {
       request(app)
-        .post('/auth')
+        .post(routes.authentication)
         .send({ ba: 'friga', passord: 'jesus' })
         .set('Accept', 'application/json')
         .expect('Bad request')
@@ -57,7 +57,7 @@ describe('routing', () => {
 
     it('should respond with a 422 because of wrong username', (done) => {
       request(app)
-        .post('/auth')
+        .post(routes.authentication)
         .send({ username: 'friga', password: 'jesus' })
         .set('Accept', 'application/json')
         .expect(422, done);
@@ -66,7 +66,7 @@ describe('routing', () => {
     it('should respond with a 422 because of wrong password', async (done) => {
       await insertUser(userData);
       request(app)
-        .post('/auth')
+        .post(routes.authentication)
         .send({ username: userData.username, password: 'jesus' })
         .set('Accept', 'application/json')
         .expect(422, done);
@@ -87,7 +87,7 @@ describe('routing', () => {
     requests(app);
   };
 
-  describe('GET /user', () => {
+  describe('GET /me', () => {
     const userData: IUser = {
       username: 'JohnLukeThe3rd',
       password: 'Password123',
@@ -103,7 +103,7 @@ describe('routing', () => {
       prep(app);
       await insertUser(userData);
       const response = await request(app)
-        .get('/user')
+        .get(routes.me)
         .set(
           'Authorization',
           `Bearer ${generateToken({
@@ -128,7 +128,7 @@ describe('routing', () => {
       );
       prep(app, badMiddleware);
       request(app)
-        .get('/user')
+        .get(routes.me)
         .set(
           'Authorization',
           `Bearer ${generateToken({
@@ -144,7 +144,7 @@ describe('routing', () => {
       prep(app);
       await db.clearDatabase();
       request(app)
-        .get('/user')
+        .get(routes.me)
         .set(
           'Authorization',
           `Bearer ${generateToken({
@@ -172,15 +172,19 @@ describe('routing', () => {
       prep(app);
     });
 
-    it('should return registered user', (done) => {
+    it('should return registered user', async () => {
       const adminToken = generateToken(adminData);
-      request(app)
-        .post('/users')
+      const response = await request(app)
+        .post(routes.users)
         .set('Authorization', `Bearer ${adminToken}`)
         .set('Accept', 'application/json')
         .send({ username: userData.username, password: userData.password })
-        .expect({ username: 'regularUser', role: '' })
-        .expect(201, done);
+        .expect(201);
+      const { username, role } = response.body;
+      expect({ username, role }).toEqual({
+        username: userData.username,
+        role: 'user',
+      });
     });
   });
 });

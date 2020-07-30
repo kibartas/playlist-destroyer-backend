@@ -1,10 +1,10 @@
 import UserModel from '../models/user';
-import { IUser } from '../../types/user';
+import { UserDto } from '../../types/user';
 
 const getUser = async (
   username: string,
   returnPassword = false,
-): Promise<IUser | null> => {
+): Promise<UserDto | null> => {
   try {
     if (returnPassword) {
       return UserModel.findOne({ username }).select('-_id -__v').exec();
