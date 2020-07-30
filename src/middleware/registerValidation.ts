@@ -1,16 +1,22 @@
 import express from 'express';
+import getUser from '../database/getUser';
 
 export const minUsernameLength = 10;
 export const maxUsernameLength = 30;
-export const minPasswordLength = 15;
+export const minPasswordLength = 10;
 export const maxPasswordLength = 50;
-export const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{15,50}$/;
+export const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&+-^])[A-Za-z\d@$!%*?&+-^]{10,50}$/;
 
-export default (
+export default async (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction,
-) => {
+): Promise<void> => {
+  if (await getUser(req.body.username)) {
+    res.status(409);
+    res.send({ message: 'Username taken' });
+    return;
+  }
   // does username and password exist
   if (!req.body?.username || !req.body?.password) {
     res.status(400);
@@ -43,6 +49,14 @@ export default (
       message:
         'Password must contain at least one lowercase letter, one uppercase letter, one special symbol and one digit',
     });
+    return;
+  }
+  if (req.body?.role) {
+    if (req.body?.role !== 'admin' && req.body?.role !== 'user') {
+      res.status(422);
+      res.send({ message: 'role can only be "admin" or "user"' });
+      return;
+    }
   }
   next();
 };
