@@ -18,6 +18,4 @@ describe('insertUser function', () => {
     expect(user.username).toEqual(userData.username);
     expect(user.password).not.toEqual(userData.password);
   });
-
-  it('should return ');
 });
