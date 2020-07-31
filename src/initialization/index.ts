@@ -1,6 +1,7 @@
 import { Application } from 'express';
 import * as dotenv from 'dotenv';
 import * as bodyParser from 'body-parser';
+import cors from 'cors';
 import { tokenValidation } from '../middleware/tokenValidation';
 import { unless } from '../middleware/utils/unless';
 import requests, { routes } from '../routes';
@@ -9,6 +10,8 @@ import registerValidation from '../middleware/registerValidation';
 
 export default async (app: Application): Promise<void> => {
   dotenv.config();
+
+  app.use(cors());
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
