@@ -16,7 +16,8 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "bcrypt": "^5.0.0",
-    "mongoose": "^5.9.25"
+    "mongoose": "^5.9.25",
+    "cors": "^2.8.5"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
