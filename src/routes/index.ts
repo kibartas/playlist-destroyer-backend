@@ -7,7 +7,7 @@ import insertUser from '../database/insertUser';
 
 export const routes = {
   users: '/users',
-  authentication: '/auth',
+  authentication: '/login',
   // gets current user information
   me: '/users/me',
 };

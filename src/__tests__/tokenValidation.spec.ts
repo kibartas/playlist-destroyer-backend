@@ -23,7 +23,7 @@ const prep = (app: Application, mockedFunction: jest.Mock) => {
   });
 };
 
-describe('authentication middleware function', () => {
+describe('tokenValidation middleware function', () => {
   let mockedFunction: jest.Mock;
   let app: Application;
   beforeEach(() => {
