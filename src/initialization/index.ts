@@ -2,6 +2,7 @@ import { Application } from 'express';
 import * as dotenv from 'dotenv';
 import * as bodyParser from 'body-parser';
 import cors from 'cors';
+import helmet from 'helmet';
 import { tokenValidation } from '../middleware/tokenValidation';
 import { unless } from '../middleware/utils/unless';
 import requests, { routes } from '../routes';
@@ -12,6 +13,8 @@ export default async (app: Application): Promise<void> => {
   dotenv.config();
 
   app.use(cors());
+
+  app.use(helmet());
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
