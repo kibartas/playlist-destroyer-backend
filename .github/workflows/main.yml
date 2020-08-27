@@ -11,9 +11,12 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
+      - name: Create env file
+        run: |
+          touch .env
+          echo TOKEN_SECRET=${{ secrets.TOKEN_SECRET }} >> .env
       - name: Cache node_modules
         uses: actions/cache@v2
         with:
@@ -29,6 +32,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Create env file
+        run: |
+          touch .env
+          echo TOKEN_SECRET=${{ secrets.TOKEN_SECRET }} >> .env
       - name: Copy build files via ssh
         uses: appleboy/scp-action@edc8ec9139a2687bcebf0249d0352ff2a988df00
         with:
