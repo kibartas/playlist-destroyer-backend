@@ -7,7 +7,7 @@
   "author": "kibartas <juodasis.perlas@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "jest --runInBand",
+    "test": "jest",
     "develop": "nodemon src/index.ts --ignore 'src/__tests__/*.ts'",
     "start": "ts-node src/index.ts"
   },
