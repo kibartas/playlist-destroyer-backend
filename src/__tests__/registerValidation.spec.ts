@@ -8,7 +8,7 @@ const validUsername = 'regularUser';
 const shortUsername = 'regular';
 const longUsername = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
 const validPassword = 'Password1234567890*';
-const shortPassword = 'Password123*&';
+const shortPassword = 'Pard123*&';
 const longPassword = 'Passwoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooord123*';
 const regexPassword = 'password1234567890';
 
