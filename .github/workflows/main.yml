@@ -13,17 +13,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2 
+      - uses: actions/checkout@v2
       - name: Cache node_modules
-        uses: actions/cache@v2  
+        uses: actions/cache@v2
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}   
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
       - name: install-and-test
         run: |
           yarn
           yarn test
-          
+
   copy:
     needs: [test]
     runs-on: ubuntu-latest
@@ -32,10 +32,10 @@ jobs:
       - name: Copy build files via ssh
         uses: appleboy/scp-action@edc8ec9139a2687bcebf0249d0352ff2a988df00
         with:
-           host: ${{ secrets.HOST }}
-           username: ${{ secrets.USERNAME }}
-           port: ${{ secrets.PORT }}
-           passphrase: ${{ secrets.PASSPHRASE }}
-           key: ${{ secrets.KEY }}
-           source: "*"
-           target: /var/www/juliusrasimas-server
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          key: ${{ secrets.KEY }}
+          source: '*'
+          target: /var/www/juliusrasimas-server
