@@ -8,7 +8,8 @@
   "license": "MIT",
   "scripts": {
     "test": "jest --runInBand",
-    "develop": "nodemon src/index.ts --ignore 'src/__tests__/*.ts'"
+    "develop": "nodemon src/index.ts --ignore 'src/__tests__/*.ts'",
+    "start": "ts-node src/index.ts"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
