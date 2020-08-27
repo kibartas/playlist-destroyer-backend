@@ -1,0 +1,41 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2 
+      - name: Cache node_modules
+        uses: actions/cache@v2  
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}   
+      - name: install-and-test
+        run: |
+          yarn
+          yarn test
+          
+  copy:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Copy build files via ssh
+        uses: appleboy/scp-action@edc8ec9139a2687bcebf0249d0352ff2a988df00
+        with:
+           host: ${{ secrets.HOST }}
+           username: ${{ secrets.USERNAME }}
+           port: ${{ secrets.PORT }}
+           passphrase: ${{ secrets.PASSPHRASE }}
+           key: ${{ secrets.KEY }}
+           source: "*"
+           target: /var/www/juliusrasimas-server
