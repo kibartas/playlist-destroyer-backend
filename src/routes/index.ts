@@ -5,14 +5,15 @@ import getUser from '../database/getUser';
 import { UserDto } from '../../types/user';
 import insertUser from '../database/insertUser';
 
+const routesPrefix = '/api';
+
 export const routes = {
-  users: '/users',
-  authentication: '/login',
-  // gets current user information
-  me: '/users/me',
+  users: `${routesPrefix}/users`,
+  authentication: `${routesPrefix}/login`,
+  me: `${routesPrefix}/users/me`,
 };
 
-export default (app: Application): void => {
+export default (app: Application) => {
   app.post(
     routes.authentication,
     async (req: Request, res: Response): Promise<void> => {
