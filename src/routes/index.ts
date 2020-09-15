@@ -10,7 +10,7 @@ const routesPrefix = '/api';
 export const routes = {
   users: `${routesPrefix}/users`,
   authentication: `${routesPrefix}/login`,
-  me: `${routesPrefix}/users/me`,
+  me: `${routesPrefix}/me`,
 };
 
 export default (app: Application) => {
